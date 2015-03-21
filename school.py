@@ -34,11 +34,16 @@ def school_problem_list():
 def school_weekly_report(id):
     school = _get_school(id);
     db = utils.get_database()
+    data_filter = {
+        "escola": school["name"],
+    }
+    turma = flask.request.values.get("turma")
+    if turma:
+        data_filter["turma"] = turma
+
     result = db.weekly.aggregate([
         {
-            "$match": {
-                "escola": school["name"],
-            }
+            "$match": data_filter,
         },
         {
             "$group": {
