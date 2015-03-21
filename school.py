@@ -73,11 +73,17 @@ def school_weekly_report(id):
                 "avgDominado": {"$avg": "$dominado"},
                 "avgPontos": {"$avg": "$pontos"},
             }
-        }
+        },
+        {
+            "$sort": {
+                "_id": -1
+            }
+        },
     ])["result"]
     def _split_result(r):
         return {
             "_id": r["_id"],
+            "week": r["_id"],
             "avg": {
                 "totalMinutes": r["avgTotalMinutes"],
                 "videoMinutes": r["avgVideoMinutes"],
@@ -116,19 +122,3 @@ def school_weekly_report(id):
         }
 
     return map(_split_result, result)
-    return [
-        {
-            "week": datetime.datetime(2014, 11, 23),
-            "schoolId": id,
-            "totalMinutes": 20.5,
-            "videoMinutes": 10.25,
-            "exerciseMinutes": 10.25,
-        },
-        {
-            "week": datetime.datetime(2014, 11, 30),
-            "schoolId": id,
-            "totalMinutes": 18.5,
-            "videoMinutes": 10.25,
-            "exerciseMinutes": 8.25,
-        },
-    ]
