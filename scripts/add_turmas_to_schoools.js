@@ -3,7 +3,7 @@ db.schools.find({turmas: null}).map(function(s) {
     var turmas = db.weekly.aggregate([
         {
             "$match": {
-                "escola": "EMEF MAESTRO ROBERTO PEREIRA PANICO"
+                "escola": s.name
             }
         },
         {
