@@ -1,22 +1,15 @@
 import bson
 import datetime
-import utils
 import flask
+
+import queries
+import utils
 
 
 def include_me(app):
     app.route("/schools/")(utils.to_json(school_list))
+    app.route("/schools/_decreasing")(utils.to_json(school_problem_list))
     app.route("/schools/<id>/weeklyReport")(utils.to_json(school_weekly_report))
-
-
-def _add_weekly_report_link(school):
-    school["_links"] = school.get("_links", {})
-    school["_links"]["weeklyReport"] = flask.url_for(
-        ".school_weekly_report",
-        id=school["_id"],
-        _external=True
-    )
-    return school
 
 
 def school_list():
@@ -25,9 +18,17 @@ def school_list():
         utils.get_database().schools.find()
     )
 
+def _add_school_by_name(data):
+    data["school"] = utils.get_database().schools.find_one({"name": data["schoolName"]})
+    data["_id"] = data["school"]["_id"]
+    return _add_weekly_report_link(data)
 
-def _get_school(id_):
-    return utils.get_database().schools.find_one({"_id": bson.ObjectId(id_)})
+
+def school_problem_list():
+    return map(
+        _add_school_by_name,
+        queries.get_decreasing_schools("totalminutes")
+    )
 
 
 def school_weekly_report(id):
@@ -128,3 +129,17 @@ def school_weekly_report(id):
         }
 
     return map(_split_result, result)
+
+
+def _add_weekly_report_link(school):
+    school["_links"] = school.get("_links", {})
+    school["_links"]["weeklyReport"] = flask.url_for(
+        ".school_weekly_report",
+        id=school["_id"],
+        _external=True
+    )
+    return school
+
+
+def _get_school(id_):
+    return utils.get_database().schools.find_one({"_id": bson.ObjectId(id_)})
