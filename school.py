@@ -41,6 +41,10 @@ def school_weekly_report(id):
     if turma:
         data_filter["turma"] = turma
 
+    aluno = flask.request.values.get("aluno")
+    if aluno:
+        data_filter["aluno"] = aluno
+
     result = db.weekly.aggregate([
         {
             "$match": data_filter,
