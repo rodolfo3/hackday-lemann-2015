@@ -52,6 +52,7 @@ def school_weekly_report(id):
                 "minPraticado": {"$min": "$praticado"},
                 "minDominado": {"$min": "$dominado"},
                 "minPontos": {"$min": "$pontos"},
+                "minComDificuldade": {"$min": "$com dificuldade"},
 
                 "maxTotalMinutes": {"$max": "$totalminutes"},
                 "maxVideoMinutes": {"$max": "$videominutes"},
@@ -62,6 +63,7 @@ def school_weekly_report(id):
                 "maxPraticado": {"$max": "$praticado"},
                 "maxDominado": {"$max": "$dominado"},
                 "maxPontos": {"$max": "$pontos"},
+                "maxComDificuldade": {"$max": "$com dificuldade"},
 
                 "avgTotalMinutes": {"$avg": "$totalminutes"},
                 "avgVideoMinutes": {"$avg": "$videominutes"},
@@ -72,6 +74,7 @@ def school_weekly_report(id):
                 "avgPraticado": {"$avg": "$praticado"},
                 "avgDominado": {"$avg": "$dominado"},
                 "avgPontos": {"$avg": "$pontos"},
+                "avgComDificuldade": {"$avg": "$com dificuldade"},
             }
         },
         {
@@ -94,6 +97,7 @@ def school_weekly_report(id):
                 "praticado": r["avgPraticado"],
                 "dominado": r["avgDominado"],
                 "pontos": r["avgPontos"],
+                "comDificuldade": r["avgComDificuldade"],
             },
 
             "min": {
@@ -106,6 +110,7 @@ def school_weekly_report(id):
                 "praticado": r["minPraticado"],
                 "dominado": r["minDominado"],
                 "pontos": r["minPontos"],
+                "comDificuldade": r["minComDificuldade"],
             },
 
             "max": {
@@ -118,6 +123,7 @@ def school_weekly_report(id):
                 "praticado": r["maxPraticado"],
                 "dominado": r["maxDominado"],
                 "pontos": r["maxPontos"],
+                "comDificuldade": r["maxComDificuldade"],
             },
         }
 
