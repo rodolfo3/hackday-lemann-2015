@@ -41,7 +41,7 @@ def school_weekly_report(id):
     if turma:
         data_filter["turma"] = turma
 
-    aluno = flask.request.values.get("aluno")
+    aluno = flask.request.values.get("aluno") or flask.request.values.get("student")
     if aluno:
         data_filter["aluno"] = aluno
 
