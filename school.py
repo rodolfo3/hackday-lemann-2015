@@ -25,9 +25,28 @@ def _add_school_by_name(data):
 
 
 def school_problem_list():
+    data_filter = {}
+    school_id = flask.request.values.get("school") or flask.request.values.get("escola")
+    if school_id:
+        school_name = utils.get_database().schools.find_one({
+            "_id": bson.ObjectId(school_id)
+        })["name"]
+        data_filter["escola"] = school_name
+
+    turma = flask.request.values.get("turma")
+    if turma:
+        data_filter["turma"] = turma
+
+    aluno = flask.request.values.get("aluno") or flask.request.values.get("student")
+    if aluno:
+        data_filter["aluno"] = aluno
+
     return map(
         _add_school_by_name,
-        queries.get_decreasing_schools("totalminutes")
+        queries.get_decreasing_schools(
+            "totalminutes",
+            extraFilter=data_filter
+        )
     )
 
 

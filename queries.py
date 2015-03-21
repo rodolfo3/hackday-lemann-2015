@@ -1,9 +1,16 @@
 import utils
 
 
-def get_decreasing_schools(field_name="totalminutes", op="avg"):
+def get_decreasing_schools(field_name="totalminutes", op="avg", extraFilter=None):
     db = utils.get_database()
-    results = db.weekly.aggregate([
+    
+    aggregateFilter = []
+    if extraFilter:
+        aggregateFilter.append({
+            "$match": extraFilter
+        })
+
+    results = db.weekly.aggregate(list(aggregateFilter) + [
         {
             '$group': {
                 '_id': {
